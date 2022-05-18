@@ -30,7 +30,7 @@ async function run() {
         })
         // Available service
         app.get('/available', async (req, res) => {
-            const date = req.query.date || "May 18, 2022"
+            const date = req.query.date
 
             // step 1. get all service
             const services = await servicesCollection.find().toArray();
@@ -48,6 +48,21 @@ async function run() {
             })
             res.send(services)
         })
+        // Get Appointment
+
+        app.get('/booking', async (req, res) => {
+            const patient = req.query.patient;
+            const query = { patient: patient };
+            const booking = await bookingCollection.find(query).toArray();
+            res.send(booking);
+        })
+
+        // app.get('/booking', async (req, res) => {
+        //     const patient = req.query.patient;
+        //     const query = { patient: patient };
+        //     const booking = await bookingCollection.find(query).toArray();
+        //     res.send(booking)
+        // })
 
 
         // Post booking
@@ -69,8 +84,8 @@ async function run() {
 }
 run().catch(console.dir)
 app.get('/', (req, res) => {
-    res.send('mathai nosto server dekhi kaj korteche')
+    res.send('welcome doctors portal server')
 });
 app.listen(port, () => {
-    console.log('salar server dekhi abar kaj o kore');
+    console.log('Doctors portal is running');
 })
