@@ -5,7 +5,7 @@ const cors = require("cors")
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const res = require("express/lib/response");
+
 
 
 // Use Middleware 
@@ -80,6 +80,12 @@ async function run() {
                 return res.status(403).send({ message: 'forbidden access' })
             }
         })
+        // Get User
+        app.get('/user', verifyJWT, async (req, res) => {
+            const users = await userCollection.find().toArray();
+            res.send(users)
+        })
+
 
         // Update User
 
